@@ -85,4 +85,4 @@ workflows:
       - build-node:
           requires:
             - build-go
-          parallelism: 1
+          # parallelism: 1
