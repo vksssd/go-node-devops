@@ -9,7 +9,7 @@ executors:
   docker-go-executor:
     docker:
       - image: circleci/golang:1.16
-    working_directory: /go/src/github.com/vksssd/go-node-devops/go-pp
+    working_directory: /go/src/github.com/vksssd/go-node-devops/go-app
 
 jobs:
   build-go:
