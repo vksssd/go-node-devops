@@ -4,12 +4,12 @@ executors:
   docker-node-executor:
     docker:
       - image: circleci/node:14
-    working_directory: /node/src/github.com/vksssd/go-node-devops/node-app
+    working_directory: /node/src/github.com/vksssd/go-node-devops
 
   docker-go-executor:
     docker:
       - image: circleci/golang:1.16
-    working_directory: /go/src/github.com/vksssd/go-node-devops/go-app
+    working_directory: /go/src/github.com/vksssd/go-node-devops
 
 jobs:
   build-go:
