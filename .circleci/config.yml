@@ -18,9 +18,9 @@ jobs:
             go test ./...
       
       # Docker login to Docker Hub
-      - run:
-          name: Docker login
-          command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      # - run:
+      #     name: Docker login
+      #     command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
       # Build and push Docker images to Docker Hub
       - run:
@@ -30,6 +30,7 @@ jobs:
             command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
             cd go-app
             docker build -t vksssd/go-app:latest .
+            docker push vksssd/go-app:$TAG
             docker tag vksssd/go-app:$TAG vksssd/go-app:latest
             docker push vksssd/go-app:latest
 
@@ -56,9 +57,9 @@ jobs:
               npm install
               npm test
 
-        -  run:
-            name: Docker login
-            command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        # -  run:
+        #     name: Docker login
+        #     command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
       # Build and push Docker images to Docker Hub
         -  run:
@@ -68,6 +69,7 @@ jobs:
               echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
               cd node-app
               docker build -t vksssd/node-app:latest .
+              docker push vksssd/node-app:$TAG
               docker tag vksssd/node-app:$TAG vksssd/node-app:latest
               docker push vksssd/node-app:latest
 
