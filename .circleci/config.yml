@@ -59,7 +59,7 @@ jobs:
       - checkout
       - run:
           name: Change directory to go-app
-          command: cd go-app
+          command: cd node-app
 
       - setup_remote_docker:
           version: 20.10.7
