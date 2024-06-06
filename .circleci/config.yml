@@ -1,13 +1,26 @@
 version: 2.1
 
-jobs:
-  build-go:
+executors:
+  docker-go-executor:
+    docker:
+      - image: circleci/node:14
+    working_directory: /go/src/github.com/vksssd/go-node-devops
+
+  docker-node-executor:
     docker:
       - image: circleci/golang:1.16
-      # - image: circleci/node:14
+    working_directory: /go/src/github.com/vksssd/go-node-devops
 
+jobs:
+  build-go:
+    executor: docker-go-executor
     steps:
+      - setup_remote_docker:
+          version: 20.10.7
+          docker_layer_caching: true
+
       - checkout
+      - run: go mod tidy
 
       # Go application build and test
       - run:
@@ -45,10 +58,13 @@ jobs:
 
 
   build-node:
-    docker:
-      - image: circleci/node:14
+    executor: docker-node-executor
 
     steps:
+        - setup_remote_docker:
+            version: 20.10.7
+            docker_layer_caching: true
+            
         - checkout
 
         - run:
