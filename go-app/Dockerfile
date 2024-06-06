@@ -8,16 +8,13 @@ WORKDIR /go/src/app/
 # COPY go.mod ./
 COPY .  .
 # RUN cd go-app
-RUN pwd
-RUN ls 
-RUN cd go-app && ls
-RUN cd go-app && go mod download
+RUN go mod download
 
 # Build the Go application
-RUN cd go-app && go build -o main .
+RUN go build -o main .
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
 # Command to run the executable
-CMD ["./go-app/main"]
+CMD ["./main"]
