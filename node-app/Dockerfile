@@ -2,13 +2,16 @@
 FROM node:14-alpine
 
 # Set the working directory inside the container
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/node-app
 
 # Copy package.json and package-lock.json to install dependencies
+RUN pwd
+RUN ls
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
+
 
 # Copy the rest of the application source code to the container
 COPY . .
