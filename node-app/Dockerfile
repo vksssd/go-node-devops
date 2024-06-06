@@ -6,7 +6,8 @@ WORKDIR /usr/src/app/node-app
 
 # Copy package.json and package-lock.json to install dependencies
 RUN pwd
-RUN ls
+RUN ls -a
+
 COPY package*.json ./
 
 # Install dependencies
