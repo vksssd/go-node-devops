@@ -13,6 +13,7 @@ jobs:
       - run:
           name: Build and test Go application
           command: |
+            docker info
             cd go-app
             go build -o app
             go test ./...
@@ -65,6 +66,7 @@ jobs:
         -  run:
             name: Build and push Docker images
             command: |
+              docker info
               TAG=$(echo $CIRCLE_SHA1 | cut -c1-7)
               echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
               cd node-app
