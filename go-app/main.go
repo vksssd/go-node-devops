@@ -13,7 +13,7 @@ Hello from Go!
 </head>
 <body style="background-color:powderblue;">
 <h1>Hello from Go!</h1>
-<p>This is a trial 1.0.</p>
+<p>This is a trial 1.1.</p>
 </body>
 </html>`
 
