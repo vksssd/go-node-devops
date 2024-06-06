@@ -26,6 +26,8 @@ jobs:
       - run:
           name: Build and push Docker images
           command: |
+            TAG=$(echo $CIRCLE_SHA1 | cut -c1-7)
+            command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
             cd go-app
             docker build -t vksssd/go-app:latest .
             docker tag vksssd/go-app:$TAG vksssd/go-app:latest
@@ -62,6 +64,8 @@ jobs:
         -  run:
             name: Build and push Docker images
             command: |
+              TAG=$(echo $CIRCLE_SHA1 | cut -c1-7)
+              echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
               cd node-app
               docker build -t vksssd/node-app:latest .
               docker tag vksssd/node-app:$TAG vksssd/node-app:latest
