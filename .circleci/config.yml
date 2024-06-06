@@ -4,12 +4,12 @@ executors:
   docker-go-executor:
     docker:
       - image: circleci/node:14
-    working_directory: /go/src/github.com/vksssd/go-node-devops
+    working_directory: ~/projects/go-node-devops
 
   docker-node-executor:
     docker:
       - image: circleci/golang:1.16
-    working_directory: /go/src/github.com/vksssd/go-node-devops
+    working_directory: ~/projects/go-node-devops
 
 jobs:
   build-go:
@@ -26,71 +26,55 @@ jobs:
       - run:
           name: Build and test Go application
           command: |
-            docker info
             cd go-app
             go build -o app
             go test ./...
       
       # Docker login to Docker Hub
-      # - run:
-      #     name: Docker login
-      #     command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - run:
+          name: Docker login
+          command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
       # Build and push Docker images to Docker Hub
       - run:
           name: Build and push Docker images
           command: |
             TAG=$(echo $CIRCLE_SHA1 | cut -c1-7)
-            command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            cd go-app
             docker build -t vksssd/go-app:latest .
-            docker push vksssd/go-app:$TAG
-            docker tag vksssd/go-app:$TAG vksssd/go-app:latest
             docker push vksssd/go-app:latest
-
-      # # Node.js application build and test
-      # - run:
-      #     name: Build and test Node.js application
-      #     command: |
-      #       cd nodejs-app
-      #       npm install
-      #       npm test
-
+            docker tag vksssd/go-app:latest vksssd/go-app:$TAG
+            docker push vksssd/go-app:$TAG
 
   build-node:
     executor: docker-node-executor
-
     steps:
-        - setup_remote_docker:
-            version: 20.10.7
-            docker_layer_caching: true
+      - setup_remote_docker:
+          version: 20.10.7
+          docker_layer_caching: true
             
-        - checkout
+      - checkout
 
-        - run:
-            name: Build and test Node.js application
-            command: |
-              cd node-app
-              npm install
-              npm test
+      - run:
+          name: Build and test Node.js application
+          command: |
+            cd node-app
+            npm install
+            npm test
 
-        # -  run:
-        #     name: Docker login
-        #     command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      # Docker login to Docker Hub
+      - run:
+          name: Docker login
+          command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
       # Build and push Docker images to Docker Hub
-        -  run:
-            name: Build and push Docker images
-            command: |
-              docker info
-              TAG=$(echo $CIRCLE_SHA1 | cut -c1-7)
-              echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-              cd node-app
-              docker build -t vksssd/node-app:latest .
-              docker push vksssd/node-app:$TAG
-              docker tag vksssd/node-app:$TAG vksssd/node-app:latest
-              docker push vksssd/node-app:latest
-
+      - run:
+          name: Build and push Docker images
+          command: |
+            TAG=$(echo $CIRCLE_SHA1 | cut -c1-7)
+            docker build -t vksssd/node-app:latest .
+            docker push vksssd/node-app:latest
+            docker tag vksssd/node-app:latest vksssd/node-app:$TAG
+            docker push vksssd/node-app:$TAG
 
 workflows:
   version: 2
@@ -98,4 +82,3 @@ workflows:
     jobs:
       - build-go
       - build-node
-
