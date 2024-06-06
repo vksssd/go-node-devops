@@ -2,16 +2,18 @@
 version: '3.8'
 
 services:
-  go:
+  go-app:
     image: vksssd/go-app:latest
+    # image: go-app
     ports:
       - "8080:8080"
     platform: linux/amd64
     
-  node:
+  node-app:
     image: vksssd/node-app:latest
+    # image: node-app
     ports:
-      - "8080:8080"
+      - "3000:3000"
     platform: linux/amd64
 
 
