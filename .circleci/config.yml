@@ -1,36 +1,26 @@
 version: 2.1
 
 executors:
-  
   docker-go-executor:
     docker:
       - image: circleci/golang:1.16
     working_directory: /go/src/github.com/vksssd/go-node-devops
-    
-  
+
   docker-node-executor:
     docker:
       - image: circleci/node:14
     working_directory: /go/src/github.com/vksssd/go-node-devops
-
 
 jobs:
   build-go:
     executor: docker-go-executor
     steps:
       - checkout
+
       - run:
           name: Build Docker image for Go application
           command: docker build -t go-app -f go-app/Dockerfile .
-          
-      - setup_remote_docker:
-          version: 20.10.7
-          docker_layer_caching: true
-
-      - checkout
-      # - run: go mod tidy
-
-      # Go application build and test
+      
       - run:
           name: Build and test Go application
           command: |
@@ -39,12 +29,14 @@ jobs:
             go build -o app
             go test ./...
       
-      # Docker login to Docker Hub
+      - setup_remote_docker:
+          version: 20.10.7
+          docker_layer_caching: true
+
       - run:
           name: Docker login
           command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-      # Build and push Docker images to Docker Hub
       - run:
           name: Build and push Docker images
           command: |
@@ -58,14 +50,10 @@ jobs:
     executor: docker-node-executor
     steps:
       - checkout
+
       - run:
-          name: Build Docker image for Go application
+          name: Build Docker image for Node.js application
           command: docker build -t node-app -f node-app/Dockerfile .
-      - setup_remote_docker:
-          version: 20.10.7
-          docker_layer_caching: true
-            
-      - checkout
 
       - run:
           name: Build and test Node.js application
@@ -74,12 +62,14 @@ jobs:
             npm install
             npm test
 
-      # Docker login to Docker Hub
+      - setup_remote_docker:
+          version: 20.10.7
+          docker_layer_caching: true
+
       - run:
           name: Docker login
           command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-      # Build and push Docker images to Docker Hub
       - run:
           name: Build and push Docker images
           command: |
@@ -92,6 +82,6 @@ jobs:
 workflows:
   version: 2
   build:
-     jobs:
+    jobs:
       - build-go
       - build-node
