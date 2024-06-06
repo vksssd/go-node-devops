@@ -11,7 +11,7 @@ executors:
   docker-node-executor:
     docker:
       - image: circleci/node:14
-    working_directory: /node/src/github.com/vksssd/go-node-devops
+    working_directory: /go/src/github.com/vksssd/go-node-devops
 
 
 jobs:
