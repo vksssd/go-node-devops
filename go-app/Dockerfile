@@ -5,8 +5,10 @@ FROM golang:1.16
 WORKDIR /go/src/app
 
 # Copy the Go application source code into the container
-COPY . .
+COPY go.mod ./
+RUN go mod download
 
+COPY .  .
 # Build the Go application
 RUN go build -o main .
 
