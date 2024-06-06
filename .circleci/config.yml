@@ -6,6 +6,7 @@ executors:
     docker:
       - image: circleci/golang:1.16
     working_directory: /go/src/github.com/vksssd/go-node-devops
+    
   
   docker-node-executor:
     docker:
@@ -17,11 +18,6 @@ jobs:
   build-go:
     executor: docker-go-executor
     steps:
-      - checkout
-      - run:
-          name: Change directory to go-app
-          command: cd go-app
-
       - setup_remote_docker:
           version: 20.10.7
           docker_layer_caching: true
@@ -56,11 +52,6 @@ jobs:
   build-node:
     executor: docker-node-executor
     steps:
-      - checkout
-      - run:
-          name: Change directory to go-app
-          command: cd node-app
-
       - setup_remote_docker:
           version: 20.10.7
           docker_layer_caching: true
@@ -94,7 +85,4 @@ workflows:
   build:
      jobs:
       - build-go
-      - build-node:
-          requires:
-            - build-go
-          # parallelism: 1
+      - build-node
