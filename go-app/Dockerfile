@@ -2,7 +2,7 @@
 FROM golang:1.16
 
 # Set the working directory inside the container
-WORKDIR /go/src/app/
+WORKDIR /go/src/app/go-app
 
 # Copy the Go application source code into the container
 # COPY go.mod ./
