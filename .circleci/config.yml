@@ -1,12 +1,12 @@
 version: 2.1
 
 executors:
-  docker-go-executor:
+  docker-node-executor:
     docker:
       - image: circleci/node:14
     working_directory: ~/projects/go-node-devops
 
-  docker-node-executor:
+  docker-go-executor:
     docker:
       - image: circleci/golang:1.16
     working_directory: ~/projects/go-node-devops
