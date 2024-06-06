@@ -9,7 +9,7 @@ WORKDIR /go/src/app/go-app
 COPY .  .
 # RUN cd go-app
 RUN ls
-RUN ls
+RUN cd go-app && ls
 RUN ls
 
 # RUN go mod download
