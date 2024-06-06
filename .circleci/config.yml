@@ -80,6 +80,9 @@ jobs:
 workflows:
   version: 2
   build:
-    jobs:
+     jobs:
       - build-go
-      - build-node
+      - build-node:
+          requires:
+            - build-go
+          parallelism: 1
