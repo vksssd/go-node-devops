@@ -41,6 +41,7 @@ jobs:
       - run:
           name: Build and push Docker images
           command: |
+            cd go-app
             TAG=$(echo $CIRCLE_SHA1 | cut -c1-7)
             docker build -t vksssd/go-app:latest .
             docker push vksssd/go-app:latest
