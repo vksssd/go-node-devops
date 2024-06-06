@@ -9,7 +9,7 @@ executors:
   docker-node-executor:
     docker:
       - image: circleci/node:14
-    working_directory: /go/src/github.com/vksssd/go-node-devops
+    # working_directory: /go/src/github.com/vksssd/go-node-devops
 
 jobs:
   build-go:
@@ -75,6 +75,7 @@ jobs:
       - run:
           name: Build and push Docker images
           command: |
+            cd node-app
             TAG=$(echo $CIRCLE_SHA1 | cut -c1-7)
             docker build -t vksssd/node-app:latest .
             docker push vksssd/node-app:latest
