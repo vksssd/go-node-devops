@@ -8,6 +8,8 @@ WORKDIR /go/src/app
 # COPY go.mod ./
 COPY .  .
 
+RUN pwd
+RUN ls 
 # RUN go mod download
 
 # Build the Go application
