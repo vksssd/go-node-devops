@@ -31,11 +31,11 @@ jobs:
 
     steps:
         - checkout
-        
+
         - run:
             name: Build and test Node.js application
             command: |
-              cd nodejs-app
+              cd node-app
               npm install
               npm test
 
