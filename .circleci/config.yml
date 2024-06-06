@@ -1,0 +1,48 @@
+version: 2.1
+
+jobs:
+  build-go:
+    docker:
+      - image: circleci/golang:1.16
+      # - image: circleci/node:14
+
+    steps:
+      - checkout
+
+      # Go application build and test
+      - run:
+          name: Build and test Go application
+          command: |
+            cd go-app
+            go build -o app
+            go test ./...
+
+      # # Node.js application build and test
+      # - run:
+      #     name: Build and test Node.js application
+      #     command: |
+      #       cd nodejs-app
+      #       npm install
+      #       npm test
+
+  build-node:
+    docker:
+      - image: circleci/node:14
+
+      steps:
+        - checkout
+        - run:
+            name: Build and test Node.js application
+            command: |
+              cd nodejs-app
+              npm install
+              npm test
+
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build-go
+      - build-node
+
